@@ -1,0 +1,54 @@
+generated: '2026-08-02'
+method: probed
+source: live GET probes, 2026-08-02
+result: none
+note: >-
+  Taalas serves no /.well-known/ discovery documents. taalas.com and chatjimmy.ai return 404 (HTML)
+  for every path probed. api.taalas.com sits behind a blanket authentication middleware that answers
+  401 {"detail":"Unauthorized"} for EVERY unmatched path — verified by probing
+  /zzz-nonexistent-path-12345, which returns the identical 401 — so a 401 there is not evidence that
+  a document exists. Nothing is asserted for api.taalas.com on the strength of a 401.
+hosts:
+- host: https://taalas.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404, content_type: text/html}
+  - {path: /.well-known/openid-configuration, status: 404, content_type: text/html}
+  - {path: /.well-known/oauth-authorization-server, status: 404, content_type: text/html}
+  - {path: /.well-known/oauth-protected-resource, status: 404, content_type: text/html}
+  - {path: /.well-known/api-catalog, status: 404, content_type: text/html}
+  - {path: /.well-known/ai-plugin.json, status: 404, content_type: text/html}
+  - {path: /.well-known/agent-card.json, status: 404, content_type: text/html}
+  - {path: /.well-known/agent.json, status: 404, content_type: text/html}
+  - {path: /.well-known/mcp.json, status: 404, content_type: text/html}
+  - {path: /robots.txt, status: 200, content_type: text/plain, note: declares sitemap.xml and sitemap.html}
+  - {path: /sitemap.xml, status: 200, content_type: text/xml, note: sitemapindex, 3 child sitemaps, 7 URLs total}
+  - {path: /llms.txt, status: 404}
+- host: https://api.taalas.com
+  blanket_401: true
+  documents:
+  - {path: /.well-known/security.txt, status: 401, note: blanket auth middleware — not evidence of existence}
+  - {path: /.well-known/openid-configuration, status: 401, note: blanket auth middleware}
+  - {path: /.well-known/oauth-authorization-server, status: 401, note: blanket auth middleware}
+  - {path: /.well-known/oauth-protected-resource, status: 401, note: blanket auth middleware}
+  - {path: /.well-known/api-catalog, status: 401, note: blanket auth middleware}
+  - {path: /.well-known/ai-plugin.json, status: 401, note: blanket auth middleware}
+  - {path: /.well-known/agent-card.json, status: 401, note: blanket auth middleware}
+  - {path: /.well-known/agent.json, status: 401, note: blanket auth middleware}
+  - {path: /openapi.json, status: 200, content_type: application/json, note: real OpenAPI 3.1.0 — harvested to openapi/}
+  - {path: /v1/openapi.json, status: 200, content_type: application/json, note: real OpenAPI 3.1.0 — harvested to openapi/}
+  - {path: /health, status: 200, content_type: application/json, note: anonymous health probe}
+  - {path: /docs, status: 200, content_type: text/html, note: Redoc rendering of the root spec}
+  - {path: /v1/docs, status: 200, content_type: text/html, note: Redoc rendering of the v1 spec}
+  - {path: /bug-report, status: 200, content_type: text/html, note: bug report form (summary, description, steps, API key)}
+  - {path: /llms.txt, status: 404}
+- host: https://chatjimmy.ai
+  documents:
+  - {path: /.well-known/security.txt, status: 404, content_type: text/html}
+  - {path: /.well-known/agent-card.json, status: 404, content_type: text/html}
+  - {path: /.well-known/agent.json, status: 404, content_type: text/html}
+  - {path: /.well-known/ai-plugin.json, status: 404, content_type: text/html}
+  - {path: /openapi.json, status: 404}
+  - {path: /llms.txt, status: 404}
+documents: []
+security_txt: null
+api_catalog: null

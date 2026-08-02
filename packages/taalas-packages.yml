@@ -1,0 +1,74 @@
+generated: '2026-08-02'
+method: searched
+source: npm registry search, PyPI, crates.io, RubyGems, NuGet, Packagist, GitHub search
+official_sdks: false
+note: >-
+  Taalas publishes no first-party client libraries. There is no Taalas GitHub organization
+  (github.com/taalas is an unrelated personal account; api.github.com/orgs/taalas returns 404) and
+  no package under the taalas name exists on PyPI, crates.io, RubyGems, NuGet or Packagist. The
+  packages below are third-party, community-built wrappers found in public registries and are
+  recorded for discovery only — every one is marked official: false, and no SDKs pointer is emitted
+  for this provider. In practice the OpenAI-compatible /v1 surface means any OpenAI client library
+  works by changing the base URL, which is the closest thing Taalas has to an SDK story.
+packages: []
+community_packages:
+- language: javascript
+  registry: npm
+  name: taalas-ai-provider
+  url: https://www.npmjs.com/package/taalas-ai-provider
+  repository: https://github.com/welidev/taalas-ai-provider
+  description: Vercel AI SDK provider for the Taalas API (llama3.1-8B).
+  install: npm install taalas-ai-provider
+  official: false
+  targets: api.taalas.com
+- language: javascript
+  registry: npm
+  name: '@matatbread/matbot-provider-chatjimmy'
+  url: https://www.npmjs.com/package/@matatbread/matbot-provider-chatjimmy
+  repository: https://github.com/MatAtBread/matbot
+  description: ChatJimmy provider adapter for matbot.
+  official: false
+  targets: chatjimmy.ai
+- language: javascript
+  registry: npm
+  name: '@qingchencloud/cj2api'
+  url: https://www.npmjs.com/package/@qingchencloud/cj2api
+  description: Cloudflare Worker that converts ChatJimmy into an OpenAI-compatible API.
+  official: false
+  targets: chatjimmy.ai
+- language: python
+  registry: github
+  name: chatjimmy-api
+  url: https://github.com/0xMH/chatjimmy-api
+  description: Unofficial Python wrapper for the chatjimmy.ai API (Taalas HC1 inference).
+  official: false
+  targets: chatjimmy.ai
+- language: javascript
+  registry: github
+  name: taalas-chatjimmy-wrapper
+  url: https://github.com/Zoheb-Malik/taalas-chatjimmy-wrapper
+  description: Unofficial OpenAI-compatible wrapper in front of chatjimmy.ai for llama-3.1:8B.
+  official: false
+  targets: chatjimmy.ai
+registries_checked:
+- registry: npm
+  result: no first-party package
+- registry: pypi
+  result: 404 for taalas, taalas-sdk, taalas-api, chatjimmy, chatjimmy-api
+- registry: rubygems
+  result: 404
+- registry: nuget
+  result: 404
+- registry: packagist
+  result: 404
+- registry: crates.io
+  result: no first-party crate
+- registry: github
+  result: no api-evangelist-visible Taalas organization
+interoperability:
+  openai_compatible_clients: true
+  note: >-
+    Because /v1 implements the OpenAI Completions and Chat Completions request shapes, official
+    OpenAI SDKs (openai-python, openai-node and compatible clients) can target Taalas by setting
+    base_url to https://api.taalas.com/v1 and passing the Taalas API key as the bearer token. This
+    is inferred from the published contract, not from a Taalas instruction.

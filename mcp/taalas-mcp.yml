@@ -1,0 +1,60 @@
+generated: '2026-08-02'
+method: derived
+status: candidate
+source: openapi/taalas-inference-api-openapi.yml, openapi/taalas-inference-v1-api-openapi.yml
+note: >-
+  Taalas publishes NO hosted or remote MCP server. Searched the site, the API host, npm, and public
+  MCP registries on 2026-08-02; mcp.taalas.com does not resolve. POSTing tools/list to
+  api.taalas.com/mcp, /v1/mcp and /sse returns 401, but so does /zzz-nonexistent-path-12345 — the
+  host answers 401 for every unmatched path, so those 401s are NOT evidence of an MCP endpoint. The
+  tool list below is a CANDIDATE surface derived mechanically from the operationIds in the two
+  harvested OpenAPI contracts; no MCP endpoint is implied to exist. Every source_operation was
+  verified verbatim against the spec it names.
+server:
+  name: taalas
+  transport: http
+  url: null
+  published: false
+authentication:
+  scheme: http-bearer
+  header: Authorization
+  detail: authentication/taalas-authentication.yml
+tools:
+- name: health
+  description: Check server health, inference queue depth, and the currently loaded LoRA adapter.
+  read_only: true
+  auth_required: false
+  source_operation: openapi/taalas-inference-api-openapi.yml#health_health_get
+- name: list_models
+  description: Get model information from the Taalas inference server.
+  read_only: true
+  auth_required: true
+  source_operation: openapi/taalas-inference-api-openapi.yml#models_models_get
+- name: generate
+  description: >-
+    Generate text against the HC1 hardcore-model silicon using the Taalas-native request shape
+    (prompt, min/max_output_tokens, topk, guided_json, guided_regex, tools, stop, temperature).
+  read_only: false
+  auth_required: true
+  source_operation: openapi/taalas-inference-api-openapi.yml#generate_generate_post
+- name: list_models_v1
+  description: Get model information from the OpenAI-compatible /v1 surface.
+  read_only: true
+  auth_required: true
+  source_operation: openapi/taalas-inference-v1-api-openapi.yml#models_models_get
+- name: completions
+  description: OpenAI-compatible text completion against Taalas silicon.
+  read_only: false
+  auth_required: true
+  source_operation: openapi/taalas-inference-v1-api-openapi.yml#completions_completions_post
+- name: chat_completions
+  description: >-
+    OpenAI-compatible chat completion supporting multi-turn messages, text and image content, and
+    function-calling tool definitions.
+  read_only: false
+  auth_required: true
+  source_operation: openapi/taalas-inference-v1-api-openapi.yml#chat_completions_chat_completions_post
+coverage:
+  rest_operations_total: 6
+  tools_derived: 6
+  tools_published_by_provider: 0

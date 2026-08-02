@@ -1,0 +1,73 @@
+generated: '2026-08-02'
+method: searched
+source: https://taalas.com/, https://api.taalas.com/, https://status.taalas.com/
+versioning:
+  scheme: uri-path
+  current: v1
+  surfaces:
+  - path: /
+    info_version: 1.0.0
+    title: Taalas API
+  - path: /v1
+    info_version: 1.0.0
+    title: Taalas API — v1
+  docs: https://api.taalas.com/v1/docs
+  policy_published: false
+  note: >-
+    Two concurrent surfaces are served side by side — an unversioned Taalas-native root API and an
+    OpenAI-compatible /v1 API. Both carry info.version 1.0.0. Taalas publishes no statement about
+    which is preferred or how long the root surface will be maintained.
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+  deprecation_header: unknown
+  note: >-
+    No deprecation or sunset policy is published, and no operation in either OpenAPI document is
+    marked deprecated: true. No Deprecation pointer is emitted for this provider.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  published: false
+status_page:
+  url: https://status.taalas.com/
+  title: Taalas Status
+  method: probed
+  http_status: 200
+  note: >-
+    status.taalas.com resolves and 302-redirects to /status/external, serving a JavaScript-rendered
+    "Taalas Status" page. No public JSON status feed or incident history endpoint was found.
+  x-evidence:
+    fetched: '2026-08-02'
+    url: https://status.taalas.com/
+    http_status: 200
+health_endpoint:
+  url: https://api.taalas.com/health
+  auth_required: false
+  operationId: health_health_get
+  reports:
+  - status
+  - queue_size
+  - current_adapter
+  x-evidence:
+    fetched: '2026-08-02'
+    http_status: 200
+    body: '{"status":"healthy","queue_size":0,"current_adapter":"none"}'
+changelog:
+  url: null
+  published: false
+  nearest: https://taalas.com/mission-log/
+  note: >-
+    Taalas publishes a "Mission Log" narrative blog, not a dated API changelog. No ChangeLog pointer
+    is emitted because there is no versioned release record.
+access:
+  model: request-gated
+  request_form: https://taalas.com/api-request-form/
+  state: closed
+  statement: >-
+    "Thank you for your interest in our API. Due to overwhelming demand, we are no longer taking
+    applications at this time."
+  public_demo: https://chatjimmy.ai/
+support:
+  bug_report: https://api.taalas.com/bug-report
+  email: info@taalas.com

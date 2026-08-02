@@ -1,0 +1,189 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/taalas-inference-api-openapi.yml, openapi/taalas-inference-v1-api-openapi.yml
+note: >-
+  Taalas is a stateless inference API — it exposes no persistent resources, no identifiers and no
+  CRUD surface, so there is no entity graph in the usual sense. The model below is the message
+  graph: the request/response schemas declared in the two OpenAPI documents and the $ref links
+  between them. Success responses on the inference operations are declared with an empty schema
+  ({}) in both published specs, so no response entity can be derived without fabricating it.
+domains:
+- name: Inference
+  entities: [GenerateRequest, V1CompletionsRequest, V1ChatCompletionsRequest, StreamOptions]
+- name: Messages
+  entities: [Message, TextContent, ImageContent]
+- name: Tools
+  entities: [Tool, FunctionDefinition, ParametersDefinition]
+- name: Monitoring
+  entities: [HealthResponse]
+- name: Errors
+  entities: [HTTPValidationError, ValidationError]
+entities:
+- name: GenerateRequest
+  spec: openapi/taalas-inference-api-openapi.yml
+  used_by: [generate_generate_post]
+  required: [prompt]
+  additional_properties: true
+  key_fields:
+  - {name: prompt, type: array<object>}
+  - {name: model, type: string, default: llama3.1-8B}
+  - {name: min_output_tokens, type: integer, default: 0}
+  - {name: max_output_tokens, type: integer, default: 0}
+  - {name: topk, type: integer, min: 1, max: 8, default: 1}
+  - {name: temperature, type: number, min: 0, max: 2, default: 1}
+  - {name: stream, type: boolean, default: false}
+  - {name: tools, type: array<object>}
+  - {name: tool_choice, type: string}
+  - {name: tool_name, type: string}
+  - {name: context_for_tool, type: string}
+  - {name: guided_json, type: object}
+  - {name: guided_regex, type: string}
+  - {name: response_format, type: object}
+  - {name: system_prompt_version, type: string, default: offline}
+  - {name: logprobs, type: boolean, default: false}
+  - {name: top_logprobs, type: integer, min: 0, max: 20, default: 0}
+  - {name: stop, type: array<string>|string, note: up to 4 sequences}
+  - {name: echo, type: boolean, default: false}
+  - {name: ignore_eos, type: boolean, default: false}
+  - {name: metadata, type: object}
+- name: V1CompletionsRequest
+  spec: openapi/taalas-inference-v1-api-openapi.yml
+  used_by: [completions_completions_post]
+  required: [model, prompt]
+  additional_properties: true
+  key_fields:
+  - {name: model, type: string}
+  - {name: prompt, type: string|array<string>|array<integer>|array<array<integer>>}
+  - {name: max_tokens, type: integer, default: 0}
+  - {name: temperature, type: number, min: 0, max: 2, default: 1}
+  - {name: top_p, type: number, min: 0, max: 1, default: 1.0}
+  - {name: logprobs, type: integer, min: 0, max: 5}
+  - {name: stream, type: boolean, default: false}
+  - {name: echo, type: boolean, default: false}
+  - {name: stop, type: array<string>|string}
+  - {name: ignore_eos, type: boolean, default: false}
+- name: V1ChatCompletionsRequest
+  spec: openapi/taalas-inference-v1-api-openapi.yml
+  used_by: [chat_completions_chat_completions_post]
+  required: [model]
+  additional_properties: true
+  key_fields:
+  - {name: model, type: string}
+  - {name: messages, type: array<Message>}
+  - {name: temperature, type: number, min: 0, max: 2, default: 1}
+  - {name: top_p, type: number, min: 0, max: 1, default: 1}
+  - {name: n, type: integer, min: 1, default: 1}
+  - {name: max_tokens, type: integer, default: 0}
+  - {name: max_completion_tokens, type: integer, default: 0}
+  - {name: presence_penalty, type: number, min: -2, max: 2}
+  - {name: frequency_penalty, type: number, min: -2, max: 2}
+  - {name: logit_bias, type: map<string,number>}
+  - {name: user, type: string}
+  - {name: tools, type: array<Tool>}
+  - {name: tool_choice, type: string}
+  - {name: logprobs, type: boolean, default: false}
+  - {name: top_logprobs, type: integer, min: 0, max: 20, default: 0}
+  - {name: stream, type: boolean, default: false}
+  - {name: ignore_eos, type: boolean, default: false}
+- name: Message
+  spec: openapi/taalas-inference-v1-api-openapi.yml
+  required: [role]
+  key_fields:
+  - {name: role, type: string}
+  - {name: content, type: 'string | array<TextContent|ImageContent|object>'}
+- name: TextContent
+  required: [text]
+  key_fields:
+  - {name: type, type: string, default: text}
+  - {name: text, type: string}
+- name: ImageContent
+  required: [image_url]
+  key_fields:
+  - {name: type, type: string, default: image_url}
+  - {name: image_url, type: map<string,string>}
+- name: Tool
+  key_fields:
+  - {name: type, type: string, default: function}
+  - {name: function, type: FunctionDefinition}
+- name: FunctionDefinition
+  key_fields:
+  - {name: name, type: string}
+  - {name: description, type: string}
+  - {name: parameters, type: ParametersDefinition}
+- name: ParametersDefinition
+  key_fields:
+  - {name: type, type: string, default: object}
+  - {name: description, type: string, default: ''}
+  - {name: properties, type: object}
+  - {name: required, type: array<string>}
+- name: StreamOptions
+  key_fields:
+  - {name: include_usage, type: boolean, default: false}
+  - {name: include_obfuscation, type: boolean, default: false}
+- name: HealthResponse
+  spec: openapi/taalas-inference-api-openapi.yml
+  used_by: [health_health_get]
+  required: [status, queue_size, current_adapter]
+  key_fields:
+  - {name: status, type: string, note: always "healthy" per the operation description}
+  - {name: queue_size, type: integer, note: items in the inference queue}
+  - {name: current_adapter, type: string, note: currently loaded LoRA adapter, or "none"}
+- name: HTTPValidationError
+  key_fields:
+  - {name: detail, type: array<ValidationError>}
+- name: ValidationError
+  required: [loc, msg, type]
+  key_fields:
+  - {name: loc, type: array<string|integer>}
+  - {name: msg, type: string}
+  - {name: type, type: string}
+relationships:
+- from: V1ChatCompletionsRequest
+  to: Message
+  kind: has_many
+  via: messages
+- from: V1ChatCompletionsRequest
+  to: Tool
+  kind: has_many
+  via: tools
+- from: V1ChatCompletionsRequest
+  to: StreamOptions
+  kind: has_one
+  via: stream_options
+- from: V1CompletionsRequest
+  to: StreamOptions
+  kind: has_one
+  via: stream_options
+- from: GenerateRequest
+  to: StreamOptions
+  kind: has_one
+  via: stream_options
+- from: Message
+  to: TextContent
+  kind: has_many
+  via: content
+- from: Message
+  to: ImageContent
+  kind: has_many
+  via: content
+- from: Tool
+  to: FunctionDefinition
+  kind: has_one
+  via: function
+- from: FunctionDefinition
+  to: ParametersDefinition
+  kind: has_one
+  via: parameters
+- from: HTTPValidationError
+  to: ValidationError
+  kind: has_many
+  via: detail
+persistent_resources: []
+identifiers: []
+id_prefixes: []
+gaps:
+- No response schema is declared for /generate, /models, /v1/models, /v1/completions or
+  /v1/chat/completions — the 200 responses use an empty schema, so the output entity (choices,
+  usage, tokens/second, etc.) cannot be derived from the published contract.
+- GenerateRequest.prompt is typed as array<object> with no item schema, so the Taalas-native prompt
+  shape is not machine-readable.

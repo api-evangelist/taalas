@@ -1,0 +1,80 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Taalas API
+  version: 1.0.0
+extends: openapi/taalas-inference-api-openapi.yml
+x-generated: '2026-08-02'
+x-method: generated
+x-source: >-
+  Enhancements derived from live probes of api.taalas.com on 2026-08-02 and from the artifacts in
+  this repository. The harvested spec is never mutated; everything here is additive and reversible.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://github.com/api-evangelist/taalas
+    x-apievangelist-enriched: '2026-08-02'
+    contact:
+      name: Taalas
+      email: info@taalas.com
+      url: https://api.taalas.com/
+    license:
+      name: Taalas Terms & Conditions
+      url: https://taalas.com/terms-conditions/
+- target: $
+  update:
+    servers:
+    - url: https://api.taalas.com
+      description: Taalas production inference host (HC1 hardcore-model silicon)
+- target: $
+  update:
+    tags:
+    - name: Monitoring
+      description: Anonymous service health and inference queue depth.
+    - name: Models
+      description: Model and LoRA adapter information for the loaded hardcore model.
+    - name: Inference
+      description: Text generation against Taalas HC1 silicon.
+- target: $.components
+  update:
+    securitySchemes:
+      bearerApiKey:
+        type: http
+        scheme: bearer
+        description: >-
+          Opaque Taalas API key presented as an HTTP bearer credential. Established by probe:
+          api.taalas.com returns "Unauthorized: Invalid API Key" for an Authorization Bearer header
+          and a generic "Unauthorized" otherwise. Not declared in the published spec.
+- target: $.paths./models.get
+  update:
+    security:
+    - bearerApiKey: []
+    responses:
+      '401':
+        description: >-
+          Unauthorized — no Authorization header, or an invalid API key. Observed by probe; not
+          declared in the published spec.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                detail:
+                  type: string
+- target: $.paths./generate.post
+  update:
+    security:
+    - bearerApiKey: []
+    responses:
+      '401':
+        description: Unauthorized — no Authorization header, or an invalid API key.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                detail:
+                  type: string
+- target: $.paths./health.get
+  update:
+    security: []
+    x-anonymous: true

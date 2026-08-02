@@ -1,0 +1,90 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Taalas API v1 (OpenAI-compatible)
+  version: 1.0.0
+extends: openapi/taalas-inference-v1-api-openapi.yml
+x-generated: '2026-08-02'
+x-method: generated
+x-source: >-
+  Enhancements derived from live probes of api.taalas.com on 2026-08-02 and from the artifacts in
+  this repository. The harvested spec is never mutated; everything here is additive and reversible.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://github.com/api-evangelist/taalas
+    x-apievangelist-enriched: '2026-08-02'
+    x-openai-compatible: true
+    contact:
+      name: Taalas
+      email: info@taalas.com
+      url: https://api.taalas.com/v1/docs
+    license:
+      name: Taalas Terms & Conditions
+      url: https://taalas.com/terms-conditions/
+- target: $
+  update:
+    servers:
+    - url: https://api.taalas.com/v1
+      description: >-
+        Taalas OpenAI-compatible inference surface. The published spec declares the relative server
+        "/v1"; this action resolves it to the absolute production host so the document is usable
+        standalone.
+- target: $
+  update:
+    tags:
+    - name: Models
+      description: Model and adapter information for the loaded hardcore model.
+    - name: Inference
+      description: OpenAI-compatible completion and chat completion against Taalas HC1 silicon.
+- target: $.components
+  update:
+    securitySchemes:
+      bearerApiKey:
+        type: http
+        scheme: bearer
+        description: >-
+          Opaque Taalas API key presented as an HTTP bearer credential — the same credential shape
+          OpenAI clients send, which is what makes base-URL substitution work. Established by probe;
+          not declared in the published spec.
+- target: $
+  update:
+    security:
+    - bearerApiKey: []
+- target: $.paths./chat/completions.post
+  update:
+    responses:
+      '401':
+        description: >-
+          Unauthorized — no Authorization header, or an invalid API key. Observed by probe; not
+          declared in the published spec.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                detail:
+                  type: string
+- target: $.paths./completions.post
+  update:
+    responses:
+      '401':
+        description: Unauthorized — no Authorization header, or an invalid API key.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                detail:
+                  type: string
+- target: $.paths./models.get
+  update:
+    responses:
+      '401':
+        description: Unauthorized — no Authorization header, or an invalid API key.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                detail:
+                  type: string

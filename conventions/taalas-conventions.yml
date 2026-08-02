@@ -1,0 +1,127 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/taalas-inference-api-openapi.yml, openapi/taalas-inference-v1-api-openapi.yml, https://api.taalas.com/
+note: >-
+  Taalas publishes no prose developer guide — the API surface is documented entirely by the two
+  Redoc-rendered OpenAPI documents at api.taalas.com/docs and api.taalas.com/v1/docs. The
+  conventions below are therefore derived from the specs plus live probes of api.taalas.com on
+  2026-08-02. Absences are recorded honestly as absences, not assumed.
+authentication:
+  style: http-bearer
+  header: Authorization
+  format: Bearer <api-key>
+  anonymous: [GET /health]
+  detail: authentication/taalas-authentication.yml
+versioning:
+  scheme: uri-path
+  versions:
+  - path: /
+    label: root
+    title: Taalas API
+    info_version: 1.0.0
+    description: Taalas-native surface (/health, /models, /generate)
+  - path: /v1
+    label: v1
+    title: Taalas API — v1
+    info_version: 1.0.0
+    description: OpenAI-compatible surface (/v1/models, /v1/completions, /v1/chat/completions)
+  version_header: false
+  policy_documented: false
+compatibility:
+  openai_compatible: true
+  detail: >-
+    The /v1 surface mirrors the OpenAI Chat Completions and Completions request shapes (model,
+    messages, temperature, top_p, n, stream, stop, max_tokens, max_completion_tokens,
+    presence_penalty, frequency_penalty, logit_bias, user, tools, tool_choice, logprobs,
+    top_logprobs, stream_options), so an OpenAI client can be repointed by base URL. Both request
+    schemas set additionalProperties: true, so unknown OpenAI fields are accepted rather than
+    rejected.
+  divergences:
+  - The Taalas-native /generate request uses min_output_tokens / max_output_tokens instead of
+    max_tokens, and caps topk at 8.
+  - /generate adds Taalas-specific fields with no OpenAI equivalent - system_prompt_version,
+    tool_name, context_for_tool, guided_json, guided_regex, ignore_eos, metadata.
+  - Successful 200 responses are declared as untyped empty schemas ({}) in both specs, so the
+    response envelope is not machine-described.
+streaming:
+  supported: true
+  request_field: stream
+  options_object: StreamOptions
+  options_fields:
+  - include_usage
+  - include_obfuscation
+  note: >-
+    stream_options.include_usage causes the server to send usage statistics as a final chunk, per
+    the field description in the spec. The transport (SSE vs chunked JSON) is not described in the
+    published contract.
+pagination:
+  supported: false
+  reason: No collection operation in either spec accepts pagination parameters; /models and
+    /v1/models take no parameters at all.
+idempotency:
+  supported: false
+  evidence: >-
+    No Idempotency-Key parameter or header appears in either OpenAPI document, and Taalas publishes
+    no retry/idempotency guidance. Inference operations are non-idempotent generative POSTs. No
+    Idempotency pointer is emitted for this provider.
+request_tracing:
+  request_id_header: null
+  observed_response_headers:
+  - date
+  - server
+  - content-length
+  - content-type
+  - strict-transport-security
+  - x-frame-options
+  - x-content-type-options
+  - x-xss-protection
+  note: No correlation/request-id header was observed on live responses from api.taalas.com.
+rate_limiting:
+  documented: false
+  headers_observed: []
+  note: >-
+    No rate-limit headers were returned on probed responses and no rate-limit policy is published.
+    The /health operation instead exposes queue_size, the depth of the shared inference queue, which
+    is the only published capacity signal.
+error_envelope:
+  shape: fastapi-detail
+  fields:
+  - name: detail
+    type: string | array
+    note: >-
+      A string for auth failures ("Unauthorized", "Unauthorized: Invalid API Key"); an array of
+      ValidationError objects (loc, msg, type) for 422 responses, per HTTPValidationError in both
+      specs.
+  problem_json: false
+  rfc9457: false
+  detail: errors/taalas-problem-types.yml
+tool_calling:
+  supported: true
+  surfaces:
+  - /generate (tools[], tool_choice, tool_name, context_for_tool)
+  - /v1/chat/completions (tools[] as Tool -> FunctionDefinition -> ParametersDefinition, tool_choice)
+  note: >-
+    The v1 surface types tool definitions properly (Tool/FunctionDefinition/ParametersDefinition);
+    the root /generate surface types tools as a bare array of objects.
+structured_output:
+  supported: true
+  fields:
+  - guided_json (JSON Schema for guided generation, /generate)
+  - guided_regex (regex pattern for guided generation, /generate)
+  - response_format (JSON object output, /generate)
+multimodal:
+  supported: true
+  evidence: >-
+    Message.content on /v1/chat/completions accepts an array of TextContent or ImageContent items,
+    where ImageContent carries an image_url map.
+models:
+  default: llama3.1-8B
+  evidence: GenerateRequest.model default in openapi/taalas-inference-api-openapi.yml
+  adapters: >-
+    /health reports current_adapter, the name of the currently loaded LoRA adapter, or "none" —
+    indicating LoRA adapter switching on the HC1 silicon.
+cross_links:
+  authentication: authentication/taalas-authentication.yml
+  errors: errors/taalas-problem-types.yml
+  lifecycle: lifecycle/taalas-lifecycle.yml
+  data_model: data-model/taalas-data-model.yml

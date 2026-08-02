@@ -1,0 +1,62 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/taalas-inference-api-openapi.yml, openapi/taalas-inference-v1-api-openapi.yml
+format: fastapi-detail
+rfc9457: false
+note: >-
+  Taalas does not use RFC 9457 application/problem+json. Both OpenAPI documents declare a single
+  error response — 422 Validation Error carrying HTTPValidationError — and no 4xx/5xx responses
+  beyond it. The 401 entry below is not in either spec; it was observed by live probe on 2026-08-02
+  and is recorded as a documentation gap, not as a published contract.
+envelope:
+  media_type: application/json
+  root_field: detail
+  schemas:
+    HTTPValidationError:
+      detail: array of ValidationError
+    ValidationError:
+      loc: array of string|integer — location of the offending field
+      msg: string — human-readable message
+      type: string — machine-readable error type
+problems:
+- status: 422
+  title: Validation Error
+  schema: HTTPValidationError
+  media_type: application/json
+  declared_in_spec: true
+  source_operations:
+  - openapi/taalas-inference-api-openapi.yml#generate_generate_post
+  - openapi/taalas-inference-v1-api-openapi.yml#completions_completions_post
+  - openapi/taalas-inference-v1-api-openapi.yml#chat_completions_chat_completions_post
+  remediation: >-
+    Inspect detail[].loc to find the rejected field and detail[].type for the constraint that
+    failed. Common constraints published in the request schemas — temperature 0..2, top_p 0..1,
+    topk 1..8, top_logprobs 0..20, presence_penalty/frequency_penalty -2..2, logprobs 0..5 on
+    /v1/completions, and a maximum of 4 stop sequences.
+- status: 401
+  title: Unauthorized
+  media_type: application/json
+  declared_in_spec: false
+  method: probed
+  variants:
+  - body: '{"detail":"Unauthorized"}'
+    meaning: No Authorization header was sent.
+  - body: '{"detail":"Unauthorized: Invalid API Key"}'
+    meaning: An Authorization Bearer credential was sent but is not a valid Taalas API key.
+  applies_to: Every operation on api.taalas.com except GET /health.
+  remediation: >-
+    Send Authorization: Bearer <api-key>. Keys are issued through
+    https://taalas.com/api-request-form/ (applications currently closed); contact info@taalas.com.
+  x-evidence:
+    fetched: '2026-08-02'
+    url: https://api.taalas.com/v1/models
+    http_status: 401
+gaps:
+- No 401 response object is declared on any operation in either published spec, despite 401 being
+  the universal unauthenticated behaviour.
+- No 429 / rate-limit or 5xx / capacity error is declared, even though /health exposes a queue
+  depth that implies request queuing and possible saturation.
+- Successful 200 responses on /generate, /models, /v1/models, /v1/completions and
+  /v1/chat/completions are declared with an empty schema ({}), so neither the success nor the
+  error envelope of the inference operations is fully machine-readable.
+report_a_bug: https://api.taalas.com/bug-report

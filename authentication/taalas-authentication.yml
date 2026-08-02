@@ -1,0 +1,70 @@
+generated: '2026-08-02'
+method: probed
+source: https://api.taalas.com/openapi.json
+docs: https://api.taalas.com/docs
+note: >-
+  Neither published Taalas OpenAPI declares components.securitySchemes, so the auth profile below was
+  established by live probing api.taalas.com (2026-08-02) rather than derived from the spec. The
+  probe is unambiguous: an anonymous request returns {"detail":"Unauthorized"} while a request
+  carrying Authorization: Bearer <value> returns {"detail":"Unauthorized: Invalid API Key"} — the
+  server distinguishes "no credential" from "bad API key", and only the Authorization header does so.
+  X-API-Key, api-key and X-Api-Token were probed and produce the generic "Unauthorized". Taalas
+  publishes no separate auth documentation page; the API key is issued through the access request
+  form at https://taalas.com/api-request-form/ (applications currently closed) and is the value
+  entered in the "API Key" field of the bug report form at https://api.taalas.com/bug-report.
+summary:
+  types:
+  - http
+  api_key_in:
+  - header
+  oauth2_flows: []
+  scopes: false
+  multi_tenant: false
+schemes:
+- name: bearerApiKey
+  type: http
+  scheme: bearer
+  bearer_format: opaque-api-key
+  in: header
+  header: Authorization
+  description: >-
+    Opaque API key presented as an HTTP bearer credential. Applies to every operation on
+    api.taalas.com except GET /health, which is anonymously reachable.
+  sources:
+  - probe:https://api.taalas.com/models
+  - probe:https://api.taalas.com/v1/models
+  - probe:https://api.taalas.com/v1/chat/completions
+anonymous_operations:
+- operationId: health_health_get
+  path: /health
+  method: get
+  evidence: 'GET https://api.taalas.com/health -> 200 {"status":"healthy","queue_size":0,"current_adapter":"none"}'
+credential_issuance:
+  self_serve: false
+  request_form: https://taalas.com/api-request-form/
+  status: closed
+  statement: >-
+    "Thank you for your interest in our API. Due to overwhelming demand, we are no longer taking
+    applications at this time."
+  contact: info@taalas.com
+gaps:
+- The OpenAPI documents declare no securitySchemes and no top-level security requirement, so the
+  machine-readable contract does not describe how to authenticate. Adding an http/bearer scheme
+  would make the published spec self-sufficient for code generation and agent use.
+- No 401 response is declared on any operation in either spec, although 401 is the observed
+  behaviour for every authenticated path.
+x-evidence:
+- fetched: '2026-08-02'
+  url: https://api.taalas.com/models
+  http_status: 401
+  body: '{"detail":"Unauthorized"}'
+  request_headers: none
+- fetched: '2026-08-02'
+  url: https://api.taalas.com/models
+  http_status: 401
+  body: '{"detail":"Unauthorized: Invalid API Key"}'
+  request_headers: 'Authorization: Bearer <test value>'
+- fetched: '2026-08-02'
+  url: https://api.taalas.com/health
+  http_status: 200
+  content_type: application/json

@@ -1,18 +1,99 @@
 aid: taalas
 name: Taalas
-description: 'Taalas is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Taalas is a Toronto-based semiconductor company building "Hardcore Models" — AI models etched
+  directly into custom silicon rather than executed as software on general-purpose GPUs, under the
+  tagline "The Model is The Computer." Its first product, the HC1 technology demonstrator, hard-wires
+  Meta's Llama 3.1 8B into an 815mm2 / 53-billion-transistor die on TSMC's 6nm process and is publicly
+  demonstrated through the ChatJimmy chatbot. Taalas exposes that silicon to developers through a
+  hosted inference REST API at api.taalas.com, which publishes two OpenAPI 3.1.0 contracts: a root
+  API with health, model-info and a Taalas-native /generate operation, and an OpenAI-compatible /v1
+  surface with /v1/completions and /v1/chat/completions. Access is by bearer API key issued through
+  an application form; applications are currently closed due to demand.
 url: https://raw.githubusercontent.com/api-evangelist/taalas/refs/heads/main/apis.yml
+image: https://taalas.com/h-content/uploads/2024/01/cropped-favicon-192x192.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment
 specificationVersion: '0.20'
 created: '2026-08-02'
 modified: '2026-08-02'
 tags:
 - Company
-apis: []
+- artificial-intelligence
+- ai-inference
+- semiconductors
+- ai-accelerator
+- large-language-models
+- llama
+- inference-api
+- openai-compatible
+- hardware
+- deep-tech
+apis:
+- name: Taalas API
+  description: >-
+    Taalas-native REST interface for running inference against the HC1 hardcore-model silicon. Three
+    operations: a public /health probe reporting server status, queue depth and the currently loaded
+    LoRA adapter; /models for model information; and /generate, the Taalas-native text-generation
+    operation supporting streaming, tool calling, guided JSON/regex generation, logprobs and stop
+    sequences. Authenticated with a bearer API key; only /health is reachable anonymously.
+  humanURL: https://api.taalas.com/docs
+  baseURL: https://api.taalas.com
+  tags:
+  - ai-inference
+  - large-language-models
+  - llama
+  - inference-api
+  properties:
+  - type: OpenAPI
+    url: openapi/taalas-inference-api-openapi.yml
+  - type: Documentation
+    url: https://api.taalas.com/docs
+  - type: APIReference
+    url: https://api.taalas.com/docs
+  - type: Authentication
+    url: authentication/taalas-authentication.yml
+  - type: Conventions
+    url: conventions/taalas-conventions.yml
+  - type: ErrorCatalog
+    url: errors/taalas-problem-types.yml
+  - type: DataModel
+    url: data-model/taalas-data-model.yml
+  - type: Overlay
+    url: overlays/taalas-inference-api-overlay.yaml
+- name: Taalas API v1 (OpenAI-compatible)
+  description: >-
+    OpenAI-compatible inference surface served under /v1 on api.taalas.com, so existing OpenAI client
+    libraries can be pointed at Taalas hardcore-model silicon by changing the base URL. Exposes
+    /v1/models, /v1/completions and /v1/chat/completions with the familiar model, messages,
+    temperature, top_p, stop, max_tokens, logit_bias, tools and stream_options parameters, plus
+    multimodal text/image message content and function-calling tool definitions.
+  humanURL: https://api.taalas.com/v1/docs
+  baseURL: https://api.taalas.com/v1
+  tags:
+  - ai-inference
+  - large-language-models
+  - openai-compatible
+  - inference-api
+  properties:
+  - type: OpenAPI
+    url: openapi/taalas-inference-v1-api-openapi.yml
+  - type: Documentation
+    url: https://api.taalas.com/v1/docs
+  - type: APIReference
+    url: https://api.taalas.com/v1/docs
+  - type: Authentication
+    url: authentication/taalas-authentication.yml
+  - type: Conventions
+    url: conventions/taalas-conventions.yml
+  - type: ErrorCatalog
+    url: errors/taalas-problem-types.yml
+  - type: DataModel
+    url: data-model/taalas-data-model.yml
+  - type: Overlay
+    url: overlays/taalas-inference-v1-api-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +101,59 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/taalas_stock/
+  url: https://taalas.com/
+- type: DeveloperPortal
+  url: https://api.taalas.com/
+- type: Documentation
+  url: https://api.taalas.com/docs
+- type: APIReference
+  url: https://api.taalas.com/v1/docs
+- type: SignUp
+  url: https://taalas.com/api-request-form/
+- type: Support
+  url: https://api.taalas.com/bug-report
+- type: Blog
+  url: https://taalas.com/mission-log/
+- type: StatusPage
+  url: https://status.taalas.com/
+- type: TermsOfService
+  url: https://taalas.com/terms-conditions/
+- type: PrivacyPolicy
+  url: https://taalas.com/privacy-policy/
+- type: Products
+  url: https://taalas.com/products/
+- type: Careers
+  url: https://taalas.com/position/
+- type: Demo
+  url: https://chatjimmy.ai/
+- type: Authentication
+  url: authentication/taalas-authentication.yml
+- type: Conventions
+  url: conventions/taalas-conventions.yml
+- type: ErrorCatalog
+  url: errors/taalas-problem-types.yml
+- type: DataModel
+  url: data-model/taalas-data-model.yml
+- type: Lifecycle
+  url: lifecycle/taalas-lifecycle.yml
+- type: Conformance
+  url: conformance/taalas-conformance.yml
+- type: Packages
+  url: packages/taalas-packages.yml
+- type: WellKnown
+  url: well-known/taalas-well-known.yml
+- type: LLMsTxt
+  url: llms/taalas-llms.txt
+- type: MCPServer
+  url: mcp/taalas-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/taalas-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/taalas-agentic-access.yml
+x-enrichment:
+  date: '2026-08-02'
+  status: enriched
+  artifacts_added: 21
+  pass: local-v1
