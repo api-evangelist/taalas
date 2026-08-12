@@ -34,11 +34,11 @@ tags:
 apis:
 - name: Taalas API
   description: >-
-    Taalas-native REST interface for running inference against the HC1 hardcore-model silicon. Three
-    operations: a public /health probe reporting server status, queue depth and the currently loaded
-    LoRA adapter; /models for model information; and /generate, the Taalas-native text-generation
-    operation supporting streaming, tool calling, guided JSON/regex generation, logprobs and stop
-    sequences. Authenticated with a bearer API key; only /health is reachable anonymously.
+    Taalas-native REST interface for running inference against the HC1 hardcore-model silicon. Three operations:
+    a public /health probe reporting server status, queue depth and the currently loaded LoRA adapter;
+    /models for model information; and /generate, the Taalas-native text-generation operation supporting
+    streaming, tool calling, guided JSON/regex generation, logprobs and stop sequences. Authenticated
+    with a bearer API key; only /health is reachable anonymously.
   humanURL: https://api.taalas.com/docs
   baseURL: https://api.taalas.com
   tags:
@@ -63,23 +63,16 @@ apis:
     url: data-model/taalas-data-model.yml
   - type: Overlay
     url: overlays/taalas-inference-api-overlay.yaml
-- name: Taalas API v1 (OpenAI-compatible)
-  description: >-
-    OpenAI-compatible inference surface served under /v1 on api.taalas.com, so existing OpenAI client
-    libraries can be pointed at Taalas hardcore-model silicon by changing the base URL. Exposes
-    /v1/models, /v1/completions and /v1/chat/completions with the familiar model, messages,
-    temperature, top_p, stop, max_tokens, logit_bias, tools and stream_options parameters, plus
-    multimodal text/image message content and function-calling tool definitions.
-  humanURL: https://api.taalas.com/v1/docs
-  baseURL: https://api.taalas.com/v1
+- aid: taalas:taalas-models-api
+  name: Taalas Models API
+  description: The Models API from Taalas — 1 operation(s) for models.
+  humanURL: https://api.taalas.com/docs
+  baseURL: https://api.taalas.com
   tags:
-  - ai-inference
-  - large-language-models
-  - openai-compatible
-  - inference-api
+  - Models
   properties:
   - type: OpenAPI
-    url: openapi/taalas-inference-v1-api-openapi.yml
+    url: openapi/taalas-models-api-openapi.yml
   - type: Documentation
     url: https://api.taalas.com/v1/docs
   - type: APIReference
@@ -92,8 +85,28 @@ apis:
     url: errors/taalas-problem-types.yml
   - type: DataModel
     url: data-model/taalas-data-model.yml
-  - type: Overlay
-    url: overlays/taalas-inference-v1-api-overlay.yaml
+- aid: taalas:taalas-monitoring-api
+  name: Taalas Monitoring API
+  description: The Monitoring API from Taalas — 1 operation(s) for monitoring.
+  humanURL: https://api.taalas.com/docs
+  baseURL: https://api.taalas.com
+  tags:
+  - Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/taalas-monitoring-api-openapi.yml
+  - type: Documentation
+    url: https://api.taalas.com/v1/docs
+  - type: APIReference
+    url: https://api.taalas.com/v1/docs
+  - type: Authentication
+    url: authentication/taalas-authentication.yml
+  - type: Conventions
+    url: conventions/taalas-conventions.yml
+  - type: ErrorCatalog
+    url: errors/taalas-problem-types.yml
+  - type: DataModel
+    url: data-model/taalas-data-model.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
