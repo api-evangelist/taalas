@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Taalas Monitoring API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          },
+          "docs": "Endpoint to check the health status of the server.\n\nReturns:\n    dict: A dictionary containing the following keys:\n        - status (str): The health status of the server, always \"healthy\".\n        - queue_size (int): The number of items in the queue managed by `queue_manager`.\n        - current_adapter (str): The name of the currently loaded LoRA model, or \"none\" if no model is loaded."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -2,14 +2,12 @@ generated: '2026-08-02'
 method: derived
 status: candidate
 source: openapi/taalas-inference-api-openapi.yml, openapi/taalas-inference-v1-api-openapi.yml
-note: >-
-  Taalas publishes NO hosted or remote MCP server. Searched the site, the API host, npm, and public
-  MCP registries on 2026-08-02; mcp.taalas.com does not resolve. POSTing tools/list to
-  api.taalas.com/mcp, /v1/mcp and /sse returns 401, but so does /zzz-nonexistent-path-12345 — the
-  host answers 401 for every unmatched path, so those 401s are NOT evidence of an MCP endpoint. The
-  tool list below is a CANDIDATE surface derived mechanically from the operationIds in the two
-  harvested OpenAPI contracts; no MCP endpoint is implied to exist. Every source_operation was
-  verified verbatim against the spec it names.
+note: Taalas publishes NO hosted or remote MCP server. Searched the site, the API host, npm, and public
+  MCP registries on 2026-08-02; mcp.taalas.com does not resolve. POSTing tools/list to api.taalas.com/mcp,
+  /v1/mcp and /sse returns 401, but so does /zzz-nonexistent-path-12345 — the host answers 401 for every
+  unmatched path, so those 401s are NOT evidence of an MCP endpoint. The tool list below is a CANDIDATE
+  surface derived mechanically from the operationIds in the two harvested OpenAPI contracts; no MCP endpoint
+  is implied to exist. Every source_operation was verified verbatim against the spec it names.
 server:
   name: taalas
   transport: http
@@ -31,8 +29,7 @@ tools:
   auth_required: true
   source_operation: openapi/taalas-inference-api-openapi.yml#models_models_get
 - name: generate
-  description: >-
-    Generate text against the HC1 hardcore-model silicon using the Taalas-native request shape
+  description: Generate text against the HC1 hardcore-model silicon using the Taalas-native request shape
     (prompt, min/max_output_tokens, topk, guided_json, guided_regex, tools, stop, temperature).
   read_only: false
   auth_required: true
@@ -48,9 +45,8 @@ tools:
   auth_required: true
   source_operation: openapi/taalas-inference-v1-api-openapi.yml#completions_completions_post
 - name: chat_completions
-  description: >-
-    OpenAI-compatible chat completion supporting multi-turn messages, text and image content, and
-    function-calling tool definitions.
+  description: OpenAI-compatible chat completion supporting multi-turn messages, text and image content,
+    and function-calling tool definitions.
   read_only: false
   auth_required: true
   source_operation: openapi/taalas-inference-v1-api-openapi.yml#chat_completions_chat_completions_post
@@ -58,3 +54,9 @@ coverage:
   rest_operations_total: 6
   tools_derived: 6
   tools_published_by_provider: 0
+deployment:
+  mode: none
+  verified: derived
+  tools: 6
+  checked: '2026-08-12'
+  source: catalog MCP census

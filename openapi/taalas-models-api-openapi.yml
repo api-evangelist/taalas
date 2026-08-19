@@ -1,0 +1,26 @@
+openapi: 3.2.0
+info:
+  title: Taalas Models API
+  version: 1.0.0
+  description: 'Operations tagged Models across 2 of this provider''s published API definitions: taalas-inference-api-openapi.yml, taalas-inference-v1-api-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+tags:
+- name: Models
+paths:
+  /models:
+    get:
+      tags:
+      - Models
+      summary: Models
+      description: Endpoint to get the model info of server.
+      operationId: models_models_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+x-refined-from:
+- taalas-inference-api-openapi.yml
+- taalas-inference-v1-api-openapi.yml

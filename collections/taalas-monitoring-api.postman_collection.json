@@ -1,0 +1,102 @@
+{
+  "item": [
+    {
+      "id": "ab04eeb1-a70e-4995-ae1c-d80d073ae9b2",
+      "name": "Monitoring",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "75217912-86ab-4124-a750-19a34da881b3",
+          "name": "Health",
+          "request": {
+            "name": "Health",
+            "description": {
+              "content": "Endpoint to check the health status of the server.\n\nReturns:\n    dict: A dictionary containing the following keys:\n        - status (str): The health status of the server, always \"healthy\".\n        - queue_size (int): The number of items in the queue managed by `queue_manager`.\n        - current_adapter (str): The name of the currently loaded LoRA model, or \"none\" if no model is loaded.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5f6d6357-4e83-4dd7-a506-9cbd5f5cc852",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"queue_size\": 9459,\n  \"current_adapter\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fe1e8f82-122c-4646-8f8f-99e379660ee7",
+    "name": "Taalas Monitoring API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Taalas API interface for running inference against the HC1 harcore model silicon.",
+      "type": "text/plain"
+    }
+  }
+}

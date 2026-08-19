@@ -1,0 +1,328 @@
+{
+  "item": [
+    {
+      "id": "be158f41-a4d8-41db-9c35-00d716ebd2ba",
+      "name": "Monitoring",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "14bd81ac-8315-43ff-871d-7612efc932b0",
+          "name": "Health",
+          "request": {
+            "name": "Health",
+            "description": {
+              "content": "Endpoint to check the health status of the server.\n\nReturns:\n    dict: A dictionary containing the following keys:\n        - status (str): The health status of the server, always \"healthy\".\n        - queue_size (int): The number of items in the queue managed by `queue_manager`.\n        - current_adapter (str): The name of the currently loaded LoRA model, or \"none\" if no model is loaded.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "af3bb235-3a4c-4a13-ace0-27ed835859a7",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"string\",\n  \"queue_size\": 4368,\n  \"current_adapter\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c450474a-3b31-4aca-802e-3acd065bdfd5",
+      "name": "Models",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "86bd26f0-623a-4f38-8dcd-4839f161d834",
+          "name": "Models",
+          "request": {
+            "name": "Models",
+            "description": {
+              "content": "Endpoint to get the model info of server.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0f54d08c-27fa-4263-9dec-241f36952624",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "ab1a33db-4d71-4d0d-840f-d60d0f7a125e",
+      "name": "Inference",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "41e272e0-385a-4130-b418-4b96a1047775",
+          "name": "Generate",
+          "request": {
+            "name": "Generate",
+            "description": {
+              "content": "Generate text based on the input prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "generate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prompt\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"min_output_tokens\": 0,\n  \"max_output_tokens\": 0,\n  \"topk\": 1,\n  \"model\": \"llama3.1-8B\",\n  \"stream\": \"<boolean>\",\n  \"tools\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"tool_choice\": \"<string>\",\n  \"logprobs\": false,\n  \"top_logprobs\": 0,\n  \"system_prompt_version\": \"offline\",\n  \"tool_name\": \"\",\n  \"context_for_tool\": \"\",\n  \"guided_json\": \"<object>\",\n  \"guided_regex\": \"<string>\",\n  \"response_format\": \"<object>\",\n  \"metadata\": \"<object>\",\n  \"echo\": false,\n  \"stream_options\": {\n    \"include_usage\": \"<boolean>\",\n    \"include_obfuscation\": \"<boolean>\"\n  },\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"temperature\": \"<number>\",\n  \"ignore_eos\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dd7b7503-e7c0-48f0-82fb-60468ebf5613",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"min_output_tokens\": 0,\n  \"max_output_tokens\": 0,\n  \"topk\": 1,\n  \"model\": \"llama3.1-8B\",\n  \"stream\": \"<boolean>\",\n  \"tools\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"tool_choice\": \"<string>\",\n  \"logprobs\": false,\n  \"top_logprobs\": 0,\n  \"system_prompt_version\": \"offline\",\n  \"tool_name\": \"\",\n  \"context_for_tool\": \"\",\n  \"guided_json\": \"<object>\",\n  \"guided_regex\": \"<string>\",\n  \"response_format\": \"<object>\",\n  \"metadata\": \"<object>\",\n  \"echo\": false,\n  \"stream_options\": {\n    \"include_usage\": false,\n    \"include_obfuscation\": false\n  },\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"temperature\": \"<number>\",\n  \"ignore_eos\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "255da2e0-ceb5-41fb-babf-f3d71eefc25e",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "generate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"prompt\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"min_output_tokens\": 0,\n  \"max_output_tokens\": 0,\n  \"topk\": 1,\n  \"model\": \"llama3.1-8B\",\n  \"stream\": \"<boolean>\",\n  \"tools\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"tool_choice\": \"<string>\",\n  \"logprobs\": false,\n  \"top_logprobs\": 0,\n  \"system_prompt_version\": \"offline\",\n  \"tool_name\": \"\",\n  \"context_for_tool\": \"\",\n  \"guided_json\": \"<object>\",\n  \"guided_regex\": \"<string>\",\n  \"response_format\": \"<object>\",\n  \"metadata\": \"<object>\",\n  \"echo\": false,\n  \"stream_options\": {\n    \"include_usage\": false,\n    \"include_obfuscation\": false\n  },\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"temperature\": \"<number>\",\n  \"ignore_eos\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "8b4b83ce-0416-41c8-9fb2-956bef68296b",
+    "name": "Taalas API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Taalas API interface for running inference against the HC1 harcore model silicon.",
+      "type": "text/plain"
+    }
+  }
+}

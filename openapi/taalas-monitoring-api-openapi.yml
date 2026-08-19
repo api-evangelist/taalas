@@ -1,0 +1,48 @@
+openapi: 3.2.0
+info:
+  title: Taalas Monitoring API
+  description: Taalas API interface for running inference against the HC1 harcore model silicon.
+  version: 1.0.0
+tags:
+- name: Monitoring
+paths:
+  /health:
+    get:
+      tags:
+      - Monitoring
+      summary: Health
+      description: "Endpoint to check the health status of the server.\n\nReturns:\n    dict: A dictionary\
+        \ containing the following keys:\n        - status (str): The health status of the server, always\
+        \ \"healthy\".\n        - queue_size (int): The number of items in the queue managed by `queue_manager`.\n\
+        \        - current_adapter (str): The name of the currently loaded LoRA model, or \"none\" if\
+        \ no model is loaded."
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+components:
+  schemas:
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          description: Health status of the server.
+        queue_size:
+          type: integer
+          title: Queue Size
+          description: Number of items in the processing queue.
+        current_adapter:
+          type: string
+          title: Current Adapter
+          description: Name of the currently loaded LoRA adapter.
+      type: object
+      required:
+      - status
+      - queue_size
+      - current_adapter
+      title: HealthResponse

@@ -1,0 +1,384 @@
+{
+  "item": [
+    {
+      "id": "f585fc85-84b1-4b33-a340-4d828473f0ca",
+      "name": "Models",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "80a26dd7-e7d2-470c-9f03-3baca5dd49c1",
+          "name": "Models",
+          "request": {
+            "name": "Models",
+            "description": {
+              "content": "Endpoint to get the model info of server.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "models"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "906ad553-4e97-4fe1-906b-693fa37a33db",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "models"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "81d760e5-21f7-4b70-b5bf-debf8eab0688",
+      "name": "Inference",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ab8c852d-ec4b-440b-9492-025409b9821e",
+          "name": "Completions",
+          "request": {
+            "name": "Completions",
+            "description": {
+              "content": "Generate text based on the input prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "completions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"<string>\",\n  \"prompt\": \"<string>\",\n  \"stream\": false,\n  \"echo\": \"<boolean>\",\n  \"max_tokens\": 0,\n  \"stream_options\": {\n    \"include_usage\": \"<boolean>\",\n    \"include_obfuscation\": \"<boolean>\"\n  },\n  \"logprobs\": \"<integer>\",\n  \"temperature\": 1,\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"top_p\": \"<number>\",\n  \"ignore_eos\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "db4d2835-b73b-415d-99dc-e6d1fb6223b3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"prompt\": \"<string>\",\n  \"stream\": false,\n  \"echo\": \"<boolean>\",\n  \"max_tokens\": 0,\n  \"stream_options\": {\n    \"include_usage\": false,\n    \"include_obfuscation\": true\n  },\n  \"logprobs\": \"<integer>\",\n  \"temperature\": 1,\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"top_p\": \"<number>\",\n  \"ignore_eos\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2759e1a5-28cd-4bce-b61c-6426a0e9c18f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"prompt\": \"<string>\",\n  \"stream\": false,\n  \"echo\": \"<boolean>\",\n  \"max_tokens\": 0,\n  \"stream_options\": {\n    \"include_usage\": false,\n    \"include_obfuscation\": true\n  },\n  \"logprobs\": \"<integer>\",\n  \"temperature\": 1,\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"top_p\": \"<number>\",\n  \"ignore_eos\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8b4c3850-1e6d-4fc4-ba40-b796472e31d2",
+          "name": "Chat Completions",
+          "request": {
+            "name": "Chat Completions",
+            "description": {
+              "content": "Generate text based on the input prompt.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "chat",
+                "completions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\"\n    },\n    {\n      \"role\": \"<string>\",\n      \"content\": \"<string>\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": \"<number>\",\n  \"n\": \"<integer>\",\n  \"stream\": \"<boolean>\",\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"max_tokens\": \"<integer>\",\n  \"max_completion_tokens\": \"<integer>\",\n  \"presence_penalty\": \"<number>\",\n  \"frequency_penalty\": \"<number>\",\n  \"logit_bias\": {\n    \"key_0\": \"<number>\"\n  },\n  \"user\": \"<string>\",\n  \"tools\": [\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"tool_choice\": \"<string>\",\n  \"logprobs\": false,\n  \"top_logprobs\": 0,\n  \"stream_options\": {\n    \"include_usage\": \"<boolean>\",\n    \"include_obfuscation\": \"<boolean>\"\n  },\n  \"ignore_eos\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8295ad35-185e-4643-894d-7b870e23c35b",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"string\",\n      \"content\": \"string\"\n    },\n    {\n      \"role\": \"string\",\n      \"content\": \"string\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": \"<number>\",\n  \"n\": \"<integer>\",\n  \"stream\": \"<boolean>\",\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"max_tokens\": \"<integer>\",\n  \"max_completion_tokens\": \"<integer>\",\n  \"presence_penalty\": \"<number>\",\n  \"frequency_penalty\": \"<number>\",\n  \"logit_bias\": {\n    \"key_0\": \"<number>\"\n  },\n  \"user\": \"<string>\",\n  \"tools\": [\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"tool_choice\": \"<string>\",\n  \"logprobs\": false,\n  \"top_logprobs\": 0,\n  \"stream_options\": {\n    \"include_usage\": false,\n    \"include_obfuscation\": true\n  },\n  \"ignore_eos\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45a51c1c-6894-4f6c-b67a-0a627c39a325",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "chat",
+                    "completions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"messages\": [\n    {\n      \"role\": \"string\",\n      \"content\": \"string\"\n    },\n    {\n      \"role\": \"string\",\n      \"content\": \"string\"\n    }\n  ],\n  \"temperature\": 1,\n  \"top_p\": \"<number>\",\n  \"n\": \"<integer>\",\n  \"stream\": \"<boolean>\",\n  \"stop\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"max_tokens\": \"<integer>\",\n  \"max_completion_tokens\": \"<integer>\",\n  \"presence_penalty\": \"<number>\",\n  \"frequency_penalty\": \"<number>\",\n  \"logit_bias\": {\n    \"key_0\": \"<number>\"\n  },\n  \"user\": \"<string>\",\n  \"tools\": [\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"type\": \"function\",\n      \"function\": {\n        \"name\": \"string\",\n        \"description\": \"string\",\n        \"parameters\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"tool_choice\": \"<string>\",\n  \"logprobs\": false,\n  \"top_logprobs\": 0,\n  \"stream_options\": {\n    \"include_usage\": false,\n    \"include_obfuscation\": true\n  },\n  \"ignore_eos\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "031715aa-cb76-402b-836c-35fe0f369ada",
+    "name": "Taalas API — v1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Taalas API interface for running inference against the HC1 harcore model silicon.",
+      "type": "text/plain"
+    }
+  }
+}
