@@ -11,6 +11,18 @@ description: >-
   surface with /v1/completions and /v1/chat/completions. Access is by bearer API key issued through
   an application form; applications are currently closed due to demand.
 url: https://raw.githubusercontent.com/api-evangelist/taalas/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://taalas.com/h-content/uploads/2024/01/cropped-favicon-192x192.png
 x-type: company
 x-source: harvest:secondary-market
