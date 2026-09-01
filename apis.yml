@@ -33,16 +33,16 @@ created: '2026-08-02'
 modified: '2026-08-02'
 tags:
 - Company
-- artificial-intelligence
-- ai-inference
-- semiconductors
-- ai-accelerator
-- large-language-models
-- llama
-- inference-api
-- openai-compatible
-- hardware
-- deep-tech
+- Artificial Intelligence
+- AI Inference
+- Semiconductors
+- AI Accelerator
+- Large Language Models
+- Llama
+- Inference API
+- OpenAI-Compatible
+- Hardware
+- Deep Tech
 tags_raw:
 - Company
 - artificial-intelligence
@@ -66,10 +66,10 @@ apis:
   humanURL: https://api.taalas.com/docs
   baseURL: https://api.taalas.com
   tags:
-  - ai-inference
-  - large-language-models
-  - llama
-  - inference-api
+  - AI Inference
+  - Large Language Models
+  - Llama
+  - Inference API
   tags_raw:
   - ai-inference
   - large-language-models
