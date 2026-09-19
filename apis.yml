@@ -49,8 +49,8 @@ tags:
 - Artificial Intelligence
 - AI Inference
 - Semiconductors
-- AI Accelerator
-- Large Language Models
+- AI Accelerators
+- LLM
 - Llama
 - Inference API
 - OpenAI-Compatible
@@ -80,7 +80,7 @@ apis:
   baseURL: https://api.taalas.com
   tags:
   - AI Inference
-  - Large Language Models
+  - LLM
   - Llama
   - Inference API
   tags_raw:
