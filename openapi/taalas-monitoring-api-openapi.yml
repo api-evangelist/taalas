@@ -11,11 +11,18 @@ paths:
       tags:
       - Monitoring
       summary: Health
-      description: "Endpoint to check the health status of the server.\n\nReturns:\n    dict: A dictionary\
-        \ containing the following keys:\n        - status (str): The health status of the server, always\
-        \ \"healthy\".\n        - queue_size (int): The number of items in the queue managed by `queue_manager`.\n\
-        \        - current_adapter (str): The name of the currently loaded LoRA model, or \"none\" if\
-        \ no model is loaded."
+      description: 'Endpoint to check the health status of the server.
+
+
+        Returns:
+
+        dict: A dictionary containing the following keys:
+
+        - status (str): The health status of the server, always "healthy".
+
+        - queue_size (int): The number of items in the queue managed by `queue_manager`.
+
+        - current_adapter (str): The name of the currently loaded LoRA model, or "none" if no model is loaded.'
       operationId: health_health_get
       responses:
         '200':

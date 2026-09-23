@@ -1,40 +1,13 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Taalas API
-  description: Taalas API interface for running inference against the HC1 harcore model silicon.
+  title: Taalas Inference API
   version: 1.0.0
+  description: 'Operations tagged Inference across 2 of this provider''s published API definitions: taalas-api-openapi-original.json, taalas-api-v1-openapi-original.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+tags:
+- name: Inference
 paths:
-  /health:
-    get:
-      tags:
-      - Monitoring
-      summary: Health
-      description: "Endpoint to check the health status of the server.\n\nReturns:\n    dict: A dictionary\
-        \ containing the following keys:\n        - status (str): The health status of the server, always\
-        \ \"healthy\".\n        - queue_size (int): The number of items in the queue managed by `queue_manager`.\n\
-        \        - current_adapter (str): The name of the currently loaded LoRA model, or \"none\" if\
-        \ no model is loaded."
-      operationId: health_health_get
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HealthResponse'
-  /models:
-    get:
-      tags:
-      - Models
-      summary: Models
-      description: Endpoint to get the model info of server.
-      operationId: models_models_get
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
   /generate:
     post:
       tags:
@@ -60,8 +33,99 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+  /completions:
+    post:
+      tags:
+      - Inference
+      summary: Completions
+      description: Generate text based on the input prompt.
+      operationId: completions_completions_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/V1CompletionsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    servers:
+    - url: /v1
+  /chat/completions:
+    post:
+      tags:
+      - Inference
+      summary: Chat Completions
+      description: Generate text based on the input prompt.
+      operationId: chat_completions_chat_completions_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/V1ChatCompletionsRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    servers:
+    - url: /v1
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    StreamOptions:
+      properties:
+        include_usage:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Include Usage
+          default: false
+        include_obfuscation:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Include Obfuscation
+          default: false
+      type: object
+      title: StreamOptions
     GenerateRequest:
       properties:
         prompt:
@@ -175,8 +239,7 @@ components:
           anyOf:
           - $ref: '#/components/schemas/StreamOptions'
           - type: 'null'
-          description: 'If stream: true, this will cause the server to send back usage stats as a final
-            chunk.'
+          description: 'If stream: true, this will cause the server to send back usage stats as a final chunk.'
         stop:
           anyOf:
           - items:
@@ -185,8 +248,7 @@ components:
           - type: string
           - type: 'null'
           title: Stop
-          description: Up to 4 sequences where the API will stop generating further tokens. The returned
-            text will not contain the stop sequence.
+          description: Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
         temperature:
           anyOf:
           - type: number
@@ -199,8 +261,7 @@ components:
         ignore_eos:
           type: boolean
           title: Ignore Eos
-          description: Ignore end of sequence (stop_id) and continue generation until output limit is
-            hit.
+          description: Ignore end of sequence (stop_id) and continue generation until output limit is hit.
           default: false
       additionalProperties: true
       type: object
@@ -216,60 +277,305 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    HealthResponse:
+    Message:
       properties:
-        status:
+        role:
           type: string
-          title: Status
-          description: Health status of the server.
-        queue_size:
-          type: integer
-          title: Queue Size
-          description: Number of items in the processing queue.
-        current_adapter:
-          type: string
-          title: Current Adapter
-          description: Name of the currently loaded LoRA adapter.
+          title: Role
+        content:
+          anyOf:
+          - type: string
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/TextContent'
+              - $ref: '#/components/schemas/ImageContent'
+              - type: object
+            type: array
+          title: Content
       type: object
       required:
-      - status
-      - queue_size
-      - current_adapter
-      title: HealthResponse
-    StreamOptions:
+      - role
+      title: Message
+    V1CompletionsRequest:
       properties:
-        include_usage:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Include Usage
-          default: false
-        include_obfuscation:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Include Obfuscation
-          default: false
-      type: object
-      title: StreamOptions
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        model:
           type: string
-          title: Message
+          title: Model
+        prompt:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          - items:
+              type: integer
+            type: array
+          - items:
+              items:
+                type: integer
+              type: array
+            type: array
+          title: Prompt
+        stream:
+          type: boolean
+          title: Stream
+          default: false
+        echo:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Echo
+          default: false
+        max_tokens:
+          type: integer
+          minimum: 0.0
+          title: Max Tokens
+          default: 0
+        stream_options:
+          anyOf:
+          - $ref: '#/components/schemas/StreamOptions'
+          - type: 'null'
+        logprobs:
+          anyOf:
+          - type: integer
+            maximum: 5.0
+            minimum: 0.0
+          - type: 'null'
+          title: Logprobs
+        temperature:
+          type: number
+          maximum: 2.0
+          minimum: 0.0
+          title: Temperature
+          default: 1
+        stop:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: string
+          - type: 'null'
+          title: Stop
+        top_p:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Top P
+          default: 1.0
+        ignore_eos:
+          type: boolean
+          title: Ignore Eos
+          default: false
+      additionalProperties: true
+      type: object
+      required:
+      - model
+      - prompt
+      title: V1CompletionsRequest
+    Tool:
+      properties:
         type:
           type: string
-          title: Error Type
+          title: Type
+          default: function
+        function:
+          anyOf:
+          - $ref: '#/components/schemas/FunctionDefinition'
+          - type: 'null'
+      type: object
+      title: Tool
+    ParametersDefinition:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: object
+        description:
+          type: string
+          title: Description
+          default: ''
+        properties:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Properties
+        required:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Required
+      type: object
+      title: ParametersDefinition
+    FunctionDefinition:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        parameters:
+          anyOf:
+          - $ref: '#/components/schemas/ParametersDefinition'
+          - type: 'null'
+      type: object
+      title: FunctionDefinition
+    TextContent:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: text
+        text:
+          type: string
+          title: Text
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - text
+      title: TextContent
+    V1ChatCompletionsRequest:
+      properties:
+        model:
+          type: string
+          title: Model
+        messages:
+          items:
+            $ref: '#/components/schemas/Message'
+          type: array
+          title: Messages
+        temperature:
+          type: number
+          maximum: 2.0
+          minimum: 0.0
+          title: Temperature
+          default: 1
+        top_p:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Top P
+          default: 1
+        n:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: N
+          default: 1
+        stream:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Stream
+          default: false
+        stop:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: string
+          - type: 'null'
+          title: Stop
+        max_tokens:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Max Tokens
+          default: 0
+        max_completion_tokens:
+          anyOf:
+          - type: integer
+            minimum: 0.0
+          - type: 'null'
+          title: Max Completion Tokens
+          default: 0
+        presence_penalty:
+          anyOf:
+          - type: number
+            maximum: 2.0
+            minimum: -2.0
+          - type: 'null'
+          title: Presence Penalty
+        frequency_penalty:
+          anyOf:
+          - type: number
+            maximum: 2.0
+            minimum: -2.0
+          - type: 'null'
+          title: Frequency Penalty
+        logit_bias:
+          anyOf:
+          - additionalProperties:
+              type: number
+            type: object
+          - type: 'null'
+          title: Logit Bias
+        user:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User
+        tools:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/Tool'
+            type: array
+          - type: 'null'
+          title: Tools
+        tool_choice:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tool Choice
+        logprobs:
+          type: boolean
+          title: Logprobs
+          default: false
+        top_logprobs:
+          type: integer
+          maximum: 20.0
+          minimum: 0.0
+          title: Top Logprobs
+          default: 0
+        stream_options:
+          anyOf:
+          - $ref: '#/components/schemas/StreamOptions'
+          - type: 'null'
+        ignore_eos:
+          type: boolean
+          title: Ignore Eos
+          default: false
+      additionalProperties: true
+      type: object
+      required:
+      - model
+      title: V1ChatCompletionsRequest
+    ImageContent:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: image_url
+        image_url:
+          additionalProperties:
+            type: string
+          type: object
+          title: Image Url
+      type: object
+      required:
+      - image_url
+      title: ImageContent
+x-refined-from:
+- taalas-api-openapi-original.json
+- taalas-api-v1-openapi-original.json

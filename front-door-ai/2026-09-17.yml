@@ -1,0 +1,27 @@
+# Front Door AI Index — taalas — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: taalas
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: taalas.com
+  final_host: taalas.com
+  ownership: own
+  owner: taalas
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 6
+  host_score: 6
+  density: 15.27
+  words: 393
+  tiers:
+    agentic: 1
+    core: 5
+    model: 0
+  ambiguous: 0
+  top_terms:
+    AI: 3
+    deep learning: 2
+    fine-tune: 1

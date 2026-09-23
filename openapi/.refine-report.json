@@ -1,9 +1,8 @@
 {
   "provider": "taalas",
   "sources": [
-    "taalas-inference-api-openapi.yml",
-    "taalas-models-api-openapi.yml",
-    "taalas-monitoring-api-openapi.yml"
+    "_original/taalas-api-openapi-original.json",
+    "_original/taalas-api-v1-openapi-original.json"
   ],
   "outputs": [
     "taalas-inference-api-openapi.yml",
@@ -14,10 +13,23 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "taalas-inference-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "taalas-models-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "taalas-monitoring-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "taalas-api-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "taalas-api-openapi-original.json: declared missing tag: Inference",
+    "taalas-api-openapi-original.json: declared missing tag: Models",
+    "taalas-api-openapi-original.json: declared missing tag: Monitoring",
+    "taalas-api-v1-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "taalas-api-v1-openapi-original.json: declared missing tag: Inference",
+    "taalas-api-v1-openapi-original.json: declared missing tag: Models",
+    "tag 'Inference' spans 2 source specs (taalas-api-openapi-original.json, taalas-api-v1-openapi-original.json): per-path servers applied",
+    "tag 'Models' spans 2 source specs (taalas-api-openapi-original.json, taalas-api-v1-openapi-original.json): per-path servers applied",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "_original/taalas-inference-v1-api-openapi.yml: archived document superseded by a larger archived document",
+    "taalas-inference-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "taalas-models-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "taalas-monitoring-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
