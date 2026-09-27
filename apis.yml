@@ -47,12 +47,11 @@ modified: '2026-08-02'
 tags:
 - Company
 - Artificial Intelligence
-- AI Inference
+- Inference
 - Semiconductors
 - AI Accelerators
 - LLM
 - Llama
-- Inference API
 - OpenAI-Compatible
 - Hardware
 - Deep Tech
@@ -68,6 +67,8 @@ tags_raw:
 - openai-compatible
 - hardware
 - deep-tech
+- AI Inference
+- Inference API
 apis:
 - name: Taalas API
   description: >-
@@ -79,15 +80,16 @@ apis:
   humanURL: https://api.taalas.com/docs
   baseURL: https://api.taalas.com
   tags:
-  - AI Inference
+  - Inference
   - LLM
   - Llama
-  - Inference API
   tags_raw:
   - ai-inference
   - large-language-models
   - llama
   - inference-api
+  - AI Inference
+  - Inference API
   properties:
   - type: OpenAPI
     url: openapi/taalas-inference-api-openapi.yml
