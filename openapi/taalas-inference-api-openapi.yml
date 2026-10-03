@@ -89,6 +89,22 @@ paths:
     - url: /v1
 components:
   schemas:
+    StreamOptions:
+      properties:
+        include_usage:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Include Usage
+          default: false
+        include_obfuscation:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Include Obfuscation
+          default: false
+      type: object
+      title: StreamOptions
     HTTPValidationError:
       properties:
         detail:
@@ -261,162 +277,6 @@ components:
       - msg
       - type
       title: ValidationError
-    StreamOptions:
-      properties:
-        include_usage:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Include Usage
-          default: false
-        include_obfuscation:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Include Obfuscation
-          default: false
-      type: object
-      title: StreamOptions
-    FunctionDefinition:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        parameters:
-          anyOf:
-          - $ref: '#/components/schemas/ParametersDefinition'
-          - type: 'null'
-      type: object
-      title: FunctionDefinition
-    V1CompletionsRequest:
-      properties:
-        model:
-          type: string
-          title: Model
-        prompt:
-          anyOf:
-          - type: string
-          - items:
-              type: string
-            type: array
-          - items:
-              type: integer
-            type: array
-          - items:
-              items:
-                type: integer
-              type: array
-            type: array
-          title: Prompt
-        stream:
-          type: boolean
-          title: Stream
-          default: false
-        echo:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Echo
-          default: false
-        max_tokens:
-          type: integer
-          minimum: 0.0
-          title: Max Tokens
-          default: 0
-        stream_options:
-          anyOf:
-          - $ref: '#/components/schemas/StreamOptions'
-          - type: 'null'
-        logprobs:
-          anyOf:
-          - type: integer
-            maximum: 5.0
-            minimum: 0.0
-          - type: 'null'
-          title: Logprobs
-        temperature:
-          type: number
-          maximum: 2.0
-          minimum: 0.0
-          title: Temperature
-          default: 1
-        stop:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: string
-          - type: 'null'
-          title: Stop
-        top_p:
-          anyOf:
-          - type: number
-            maximum: 1.0
-            minimum: 0.0
-          - type: 'null'
-          title: Top P
-          default: 1.0
-        ignore_eos:
-          type: boolean
-          title: Ignore Eos
-          default: false
-      additionalProperties: true
-      type: object
-      required:
-      - model
-      - prompt
-      title: V1CompletionsRequest
-    Message:
-      properties:
-        role:
-          type: string
-          title: Role
-        content:
-          anyOf:
-          - type: string
-          - items:
-              anyOf:
-              - $ref: '#/components/schemas/TextContent'
-              - $ref: '#/components/schemas/ImageContent'
-              - type: object
-            type: array
-          title: Content
-      type: object
-      required:
-      - role
-      title: Message
-    TextContent:
-      properties:
-        type:
-          type: string
-          title: Type
-          default: text
-        text:
-          type: string
-          title: Text
-      type: object
-      required:
-      - text
-      title: TextContent
-    Tool:
-      properties:
-        type:
-          type: string
-          title: Type
-          default: function
-        function:
-          anyOf:
-          - $ref: '#/components/schemas/FunctionDefinition'
-          - type: 'null'
-      type: object
-      title: Tool
     ParametersDefinition:
       properties:
         type:
@@ -441,6 +301,39 @@ components:
           title: Required
       type: object
       title: ParametersDefinition
+    ImageContent:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: image_url
+        image_url:
+          additionalProperties:
+            type: string
+          type: object
+          title: Image Url
+      type: object
+      required:
+      - image_url
+      title: ImageContent
+    FunctionDefinition:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        parameters:
+          anyOf:
+          - $ref: '#/components/schemas/ParametersDefinition'
+          - type: 'null'
+      type: object
+      title: FunctionDefinition
     V1ChatCompletionsRequest:
       properties:
         model:
@@ -561,21 +454,128 @@ components:
       required:
       - model
       title: V1ChatCompletionsRequest
-    ImageContent:
+    Tool:
       properties:
         type:
           type: string
           title: Type
-          default: image_url
-        image_url:
-          additionalProperties:
-            type: string
-          type: object
-          title: Image Url
+          default: function
+        function:
+          anyOf:
+          - $ref: '#/components/schemas/FunctionDefinition'
+          - type: 'null'
+      type: object
+      title: Tool
+    Message:
+      properties:
+        role:
+          type: string
+          title: Role
+        content:
+          anyOf:
+          - type: string
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/TextContent'
+              - $ref: '#/components/schemas/ImageContent'
+              - type: object
+            type: array
+          title: Content
       type: object
       required:
-      - image_url
-      title: ImageContent
+      - role
+      title: Message
+    TextContent:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: text
+        text:
+          type: string
+          title: Text
+      type: object
+      required:
+      - text
+      title: TextContent
+    V1CompletionsRequest:
+      properties:
+        model:
+          type: string
+          title: Model
+        prompt:
+          anyOf:
+          - type: string
+          - items:
+              type: string
+            type: array
+          - items:
+              type: integer
+            type: array
+          - items:
+              items:
+                type: integer
+              type: array
+            type: array
+          title: Prompt
+        stream:
+          type: boolean
+          title: Stream
+          default: false
+        echo:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Echo
+          default: false
+        max_tokens:
+          type: integer
+          minimum: 0.0
+          title: Max Tokens
+          default: 0
+        stream_options:
+          anyOf:
+          - $ref: '#/components/schemas/StreamOptions'
+          - type: 'null'
+        logprobs:
+          anyOf:
+          - type: integer
+            maximum: 5.0
+            minimum: 0.0
+          - type: 'null'
+          title: Logprobs
+        temperature:
+          type: number
+          maximum: 2.0
+          minimum: 0.0
+          title: Temperature
+          default: 1
+        stop:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: string
+          - type: 'null'
+          title: Stop
+        top_p:
+          anyOf:
+          - type: number
+            maximum: 1.0
+            minimum: 0.0
+          - type: 'null'
+          title: Top P
+          default: 1.0
+        ignore_eos:
+          type: boolean
+          title: Ignore Eos
+          default: false
+      additionalProperties: true
+      type: object
+      required:
+      - model
+      - prompt
+      title: V1CompletionsRequest
 x-refined-from:
 - taalas-api-openapi-original.json
 - taalas-api-v1-openapi-original.json
