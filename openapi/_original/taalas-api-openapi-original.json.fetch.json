@@ -1,0 +1,12 @@
+{
+ "url": "https://api.taalas.com/openapi.json",
+ "requested_url": "https://api.taalas.com/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 6314,
+ "sha256": "494a915c542e4d4b1eff397c80a112c19b00dd97b87ece632c764c32fb6b630d",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
