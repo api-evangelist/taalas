@@ -89,27 +89,6 @@ paths:
     - url: /v1
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     GenerateRequest:
       properties:
         prompt:
@@ -252,6 +231,27 @@ components:
       required:
       - prompt
       title: GenerateRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     StreamOptions:
       properties:
         include_usage:
@@ -277,24 +277,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    FunctionDefinition:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        parameters:
-          anyOf:
-          - $ref: '#/components/schemas/ParametersDefinition'
-          - type: 'null'
-      type: object
-      title: FunctionDefinition
     ParametersDefinition:
       properties:
         type:
@@ -319,37 +301,6 @@ components:
           title: Required
       type: object
       title: ParametersDefinition
-    Message:
-      properties:
-        role:
-          type: string
-          title: Role
-        content:
-          anyOf:
-          - type: string
-          - items:
-              anyOf:
-              - $ref: '#/components/schemas/TextContent'
-              - $ref: '#/components/schemas/ImageContent'
-              - type: object
-            type: array
-          title: Content
-      type: object
-      required:
-      - role
-      title: Message
-    Tool:
-      properties:
-        type:
-          type: string
-          title: Type
-          default: function
-        function:
-          anyOf:
-          - $ref: '#/components/schemas/FunctionDefinition'
-          - type: 'null'
-      type: object
-      title: Tool
     V1CompletionsRequest:
       properties:
         model:
@@ -428,21 +379,6 @@ components:
       - model
       - prompt
       title: V1CompletionsRequest
-    ImageContent:
-      properties:
-        type:
-          type: string
-          title: Type
-          default: image_url
-        image_url:
-          additionalProperties:
-            type: string
-          type: object
-          title: Image Url
-      type: object
-      required:
-      - image_url
-      title: ImageContent
     V1ChatCompletionsRequest:
       properties:
         model:
@@ -563,6 +499,55 @@ components:
       required:
       - model
       title: V1ChatCompletionsRequest
+    Tool:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: function
+        function:
+          anyOf:
+          - $ref: '#/components/schemas/FunctionDefinition'
+          - type: 'null'
+      type: object
+      title: Tool
+    FunctionDefinition:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        parameters:
+          anyOf:
+          - $ref: '#/components/schemas/ParametersDefinition'
+          - type: 'null'
+      type: object
+      title: FunctionDefinition
+    Message:
+      properties:
+        role:
+          type: string
+          title: Role
+        content:
+          anyOf:
+          - type: string
+          - items:
+              anyOf:
+              - $ref: '#/components/schemas/TextContent'
+              - $ref: '#/components/schemas/ImageContent'
+              - type: object
+            type: array
+          title: Content
+      type: object
+      required:
+      - role
+      title: Message
     TextContent:
       properties:
         type:
@@ -576,6 +561,21 @@ components:
       required:
       - text
       title: TextContent
+    ImageContent:
+      properties:
+        type:
+          type: string
+          title: Type
+          default: image_url
+        image_url:
+          additionalProperties:
+            type: string
+          type: object
+          title: Image Url
+      type: object
+      required:
+      - image_url
+      title: ImageContent
 x-refined-from:
 - taalas-api-openapi-original.json
 - taalas-api-v1-openapi-original.json
