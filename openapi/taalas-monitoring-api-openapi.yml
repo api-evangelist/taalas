@@ -53,3 +53,9 @@ components:
       - queue_size
       - current_adapter
       title: HealthResponse
+x-provenance:
+  method: harvested
+  publisher: Taalas
+  source: https://api.taalas.com/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
